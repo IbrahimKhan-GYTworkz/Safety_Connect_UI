@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import "./App.css";
 import Header from "./Header";
 import MainContent from "./MainContent";
@@ -10,7 +10,7 @@ interface Conversation {
   id: number;
   timestamp: string;
   userInput: string;
-  botResponse: string;
+  botResponse: JSX.Element;
 }
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
-  const addToHistory = (userInput: string, botResponse: string) => {
+  const addToHistory = (userInput: string, botResponse: JSX.Element) => {
     const newConversation: Conversation = {
       id: Date.now(),
       timestamp: new Date().toLocaleString(),
