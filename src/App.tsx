@@ -1,0 +1,51 @@
+"use client";
+
+import { useState } from "react";
+import "./App.css";
+import Header from "./Header";
+import MainContent from "./MainContent";
+import Sidebar from "./Sidebar";
+
+interface Conversation {
+  id: number;
+  timestamp: string;
+  userInput: string;
+  botResponse: string;
+}
+
+function App() {
+  const [activeTab, setActiveTab] = useState("generate");
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+
+  const addToHistory = (userInput: string, botResponse: string) => {
+    const newConversation: Conversation = {
+      id: Date.now(),
+      timestamp: new Date().toLocaleString(),
+      userInput,
+      botResponse,
+    };
+    setConversations((prev) => [newConversation, ...prev]);
+  };
+
+  return (
+    <div className="app-container">
+      <Sidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+      />
+      <div className={`main-wrapper ${sidebarOpen ? "sidebar-open" : ""}`}>
+        <Header />
+        <MainContent
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          conversations={conversations}
+          onAddToHistory={addToHistory}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;

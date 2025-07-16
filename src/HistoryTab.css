@@ -1,0 +1,185 @@
+.history-tab {
+  width: 100%;
+}
+
+.history-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.history-header h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 8px;
+}
+
+.history-header p {
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.history-content {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+}
+
+.empty-history {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.conversation-list {
+  padding: 24px;
+}
+
+.conversation-item {
+  border-bottom: 1px solid #e9ecef;
+  padding: 24px 0;
+}
+
+.conversation-item:last-child {
+  border-bottom: none;
+}
+
+.conversation-header {
+  margin-bottom: 16px;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.conversation-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-message,
+.bot-message {
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.user-message {
+  background-color: #f8f9fa;
+  margin-left: 40px;
+}
+
+.bot-message {
+  background-color: #e3f2fd;
+  margin-right: 40px;
+}
+
+.user-message strong,
+.bot-message strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-message strong {
+  color: #495057;
+}
+
+.bot-message strong {
+  color: #1976d2;
+}
+
+.user-message p,
+.bot-message p {
+  margin: 0;
+  line-height: 1.5;
+  color: #212529;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .history-header {
+    margin-bottom: 24px;
+  }
+
+  .history-header h3 {
+    font-size: 22px;
+  }
+
+  .history-header p {
+    font-size: 15px;
+  }
+
+  .conversation-list {
+    padding: 20px;
+  }
+
+  .conversation-item {
+    padding: 20px 0;
+  }
+
+  .user-message {
+    margin-left: 20px;
+  }
+
+  .bot-message {
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-header h3 {
+    font-size: 20px;
+  }
+
+  .history-header p {
+    font-size: 14px;
+  }
+
+  .conversation-list {
+    padding: 16px;
+  }
+
+  .conversation-item {
+    padding: 16px 0;
+  }
+
+  .user-message,
+  .bot-message {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 12px;
+  }
+
+  .user-message strong,
+  .bot-message strong {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .history-header {
+    margin-bottom: 20px;
+  }
+
+  .history-header h3 {
+    font-size: 18px;
+  }
+
+  .conversation-content {
+    gap: 12px;
+  }
+
+  .user-message,
+  .bot-message {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
