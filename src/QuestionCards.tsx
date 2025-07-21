@@ -1,6 +1,6 @@
 "use client";
 
-import "./QuestionCards.css";
+import "./styles/QuestionCards.css";
 
 interface QuestionCardsProps {
   onQuestionClick: (question: string) => void;

@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import "./HistoryTab.css";
+import "./styles/HistoryTab.css";
 
 interface Conversation {
   id: number;

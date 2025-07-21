@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, type JSX } from "react";
-import "./App.css";
 import Header from "./Header";
 import MainContent from "./MainContent";
 import Sidebar from "./Sidebar";
+import "./styles/App.css";
 
 interface Conversation {
   id: number;

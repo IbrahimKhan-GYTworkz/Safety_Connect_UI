@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, type JSX } from "react";
-import "./GenerateTab.css";
+import "./styles/GenerateTab.css";
 
 interface GenerateTabProps {
   onAddToHistory: (userInput: string, botResponse: JSX.Element) => void;
@@ -43,43 +43,14 @@ const UploadIcon = () => (
   </svg>
 );
 
-// const SettingsIcon = () => (
-//   <svg
-//     width="20"
-//     height="20"
-//     viewBox="0 0 24 24"
-//     fill="none"
-//     stroke="currentColor"
-//     strokeWidth="2"
-//   >
-//     <circle cx="12" cy="12" r="3" />
-//     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-//   </svg>
-// );
-
-// const ChevronDownIcon = () => (
-//   <svg
-//     width="16"
-//     height="16"
-//     viewBox="0 0 24 24"
-//     fill="none"
-//     stroke="currentColor"
-//     strokeWidth="2"
-//   >
-//     <polyline points="6,9 12,15 18,9" />
-//   </svg>
-// );
-
 export default function GenerateTab({
   onAddToHistory,
   inputText,
   setInputText,
   setHasSubmitted,
 }: GenerateTabProps) {
-  // const [activeSubTab, setActiveSubTab] = useState("text-to-speech");
-  //   const [inputText, setInputText] = useState("Hi, I need help with ...");
   const [selectedLanguage, setSelectedLanguage] = useState("English");
-  //   const [selectedVoice, setSelectedVoice] = useState("Rachel");
+
   const [isRecording, setIsRecording] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<
     { user: string; bot: JSX.Element }[]
@@ -97,8 +68,6 @@ export default function GenerateTab({
     "Japanese",
     "Korean",
   ];
-
-  //   const voices = ["Rachel", "John", "Sarah", "Michael", "Emma", "David"];
 
   const handleSubmit = () => {
     if (inputText.trim()) {
@@ -252,11 +221,6 @@ export default function GenerateTab({
     console.log("File upload clicked");
   };
 
-  //   const handleQuestionCardClick = (question: string) => {
-  //     setInputText(question);
-  //     onTabChange("generate"); // Switch to Generate tab if not already there
-  //   };
-
   return (
     <div className="generate-tab">
       <div className="chat-history">
@@ -277,24 +241,7 @@ export default function GenerateTab({
         ))}
       </div>
       <div className="content-box">
-        <div className="sub-tab-navigation">
-          {/* <button
-            className={`sub-tab-btn ${
-              activeSubTab === "text-to-speech" ? "active" : ""
-            }`}
-            onClick={() => setActiveSubTab("text-to-speech")}
-          >
-            TEXT TO SPEECH
-          </button> */}
-          {/* <button
-            className={`sub-tab-btn ${
-              activeSubTab === "speech-to-speech" ? "active" : ""
-            }`}
-            onClick={() => setActiveSubTab("speech-to-speech")}
-          >
-            SPEECH TO SPEECH
-          </button> */}
-        </div>
+        <div className="sub-tab-navigation"></div>
 
         <div className="input-section">
           <textarea
@@ -308,24 +255,6 @@ export default function GenerateTab({
 
         <div className="controls-section">
           <div className="control-group">
-            {/* <div className="voice-selector">
-              <div className="voice-avatar">
-                <div className="avatar-circle"></div>
-              </div>
-              <select
-                value={selectedVoice}
-                onChange={(e) => setSelectedVoice(e.target.value)}
-                className="voice-select"
-              >
-                {voices.map((voice) => (
-                  <option key={voice} value={voice}>
-                    {voice}
-                  </option>
-                ))}
-              </select>
-              <ChevronDownIcon />
-            </div> */}
-
             <div className="language-selector">
               <select
                 value={selectedLanguage}
@@ -350,21 +279,14 @@ export default function GenerateTab({
             >
               <UploadIcon />
             </button>
-
-            {/* <button className="settings-btn">
-              <SettingsIcon />
-              <span>Settings</span>
-            </button> */}
           </div>
           <div className="submit-section">
-            {/* <div className="character-count">{inputText.length}/ 5000</div> */}
             <button className="generate-btn" onClick={handleSubmit}>
               Submit
             </button>
           </div>
         </div>
       </div>
-      {/* <QuestionCards onQuestionClick={handleQuestionCardClick} /> */}
     </div>
   );
 }

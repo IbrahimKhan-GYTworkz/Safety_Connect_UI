@@ -3,8 +3,8 @@
 import { useState, type JSX } from "react";
 import GenerateTab from "./GenerateTab";
 import HistoryTab from "./HistoryTab";
-import "./MainContent.css";
 import QuestionCards from "./QuestionCards";
+import "./styles/MainContent.css";
 
 interface Conversation {
   id: number;
@@ -35,22 +35,7 @@ export default function MainContent({
   };
   return (
     <main className="main-content">
-      <div className="tab-navigation">
-        {/* <div className="tab-buttons">
-          <button
-            className={`tab-btn ${activeTab === "generate" ? "active" : ""}`}
-            onClick={() => onTabChange("generate")}
-          >
-            GENERATE
-          </button>
-          <button
-            className={`tab-btn ${activeTab === "history" ? "active" : ""}`}
-            onClick={() => onTabChange("history")}
-          >
-            HISTORY
-          </button>
-        </div> */}
-      </div>
+      <div className="tab-navigation"></div>
 
       <div className="tab-content">
         {activeTab === "generate" ? (
