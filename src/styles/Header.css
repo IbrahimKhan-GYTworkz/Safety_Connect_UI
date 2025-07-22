@@ -1,7 +1,8 @@
 .app-header {
   background-color: white;
   border-bottom: 1px solid #e9ecef;
-  padding: 32px 40px;
+  padding: 12px 40px;
+  height:20vh
 }
 
 .header-content {
@@ -44,11 +45,11 @@
 }
 
 .header-description {
-  font-size: 16px;
+  font-size: 14px;
   color: #6c757d;
   max-width: 600px;
   line-height: 1.5;
-  margin-top: 12px;
+  /* margin-top: 12px; */
 }
 
 .mode-toggle {
@@ -86,7 +87,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .app-header {
-    padding: 24px 32px;
+    padding: 12px 32px;
   }
 
   .header-content {
@@ -106,7 +107,7 @@
 
 @media (max-width: 480px) {
   .app-header {
-    padding: 20px 24px;
+    padding: 12px 24px;
   }
 
   .header-title {

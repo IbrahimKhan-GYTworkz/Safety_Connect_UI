@@ -1,0 +1,86 @@
+
+
+.saved-tab {
+  padding: 1.5rem;
+  font-family: "ABeeZee", sans-serif;
+  color: #1f1f1f;
+}
+
+.saved-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #111;
+  font-family: "ABeeZee", sans-serif;
+}
+
+.empty-msg {
+  font-size: 1rem;
+  color: #666;
+  font-family: "ABeeZee", sans-serif;
+}
+
+.saved-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.saved-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.saved-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.saved-meta {
+  font-size: 0.8rem;
+  color: #888;
+  font-family: "ABeeZee", sans-serif;
+}
+
+.saved-question {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #222;
+  font-family: "ABeeZee", sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.saved-response {
+  font-size: 0.95rem;
+  background-color: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  color: #333;
+  line-height: 1.5;
+  font-family: "ABeeZee", sans-serif;
+}
+
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 1.2rem;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #f2f2f2;
+}

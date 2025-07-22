@@ -11,13 +11,9 @@ const Header = () => {
           {/* Optional description below the heading */}
           <p className="header-description">
             Unleash the power of our cutting-edge technology to gain assistance
-            in operating procedures and guidelines in your plant enviornment.
+            in operating procedures and turning passive knowledge into
+            intelligence.
           </p>
-        </div>
-
-        {/* Optional mode toggle section */}
-        <div className="mode-toggle">
-          <button className="mode-btn active">Operator</button>
         </div>
       </div>
     </header>

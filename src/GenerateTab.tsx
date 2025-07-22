@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, type JSX } from "react";
+import { ArrowRight } from "lucide-react";
+import { useState, type JSX } from "react";
 import "./styles/GenerateTab.css";
 
 interface GenerateTabProps {
@@ -8,14 +9,15 @@ interface GenerateTabProps {
   inputText: string;
   setInputText: (text: string) => void;
   setHasSubmitted: (value: boolean) => void;
+  setIsHeaderVisible: (visible: boolean) => void;
+  onSaveConversation: (history: { user: string; bot: JSX.Element }[]) => void;
 }
 
-// Simple icon components
 const MicIcon = ({ className = "" }: { className?: string }) => (
   <svg
     className={className}
-    width="20"
-    height="20"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -28,18 +30,35 @@ const MicIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-const UploadIcon = () => (
+const SaveIcon = ({ className = "" }: { className?: string }) => (
   <svg
-    width="20"
-    height="20"
+    className={className}
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7,10 12,5 17,10" />
-    <line x1="12" y1="5" x2="12" y2="15" />
+    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const PdfIcon = () => (
+  <svg
+    className="pdf-icon"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6z"
+      fill="red"
+    />
+    <text x="4" y="20" fontSize="9" fill="white">
+      PDF
+    </text>
   </svg>
 );
 
@@ -48,63 +67,40 @@ export default function GenerateTab({
   inputText,
   setInputText,
   setHasSubmitted,
+  setIsHeaderVisible,
+  onSaveConversation,
 }: GenerateTabProps) {
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-
   const [isRecording, setIsRecording] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<
     { user: string; bot: JSX.Element }[]
   >([]);
 
-  const languages = [
-    "English",
-    "Spanish",
-    "French",
-    "German",
-    "Italian",
-    "Portuguese",
-    "Russian",
-    "Chinese",
-    "Japanese",
-    "Korean",
-  ];
-
   const handleSubmit = () => {
-    if (inputText.trim()) {
-      const botResponse = getBotResponse(inputText); // simulate or call API
+    if (!inputText.trim()) return;
 
-      // Push to conversation history
-      setConversationHistory((prev) => [
-        ...prev,
-        { user: inputText, bot: botResponse },
-      ]);
+    const botResponse = getBotResponse(inputText);
 
-      onAddToHistory(inputText, botResponse); // Optional external tracking
-      setHasSubmitted(true);
-      setInputText(""); // Clear input
+    setConversationHistory((prev) => [
+      ...prev,
+      { user: inputText, bot: botResponse },
+    ]);
+
+    onAddToHistory(inputText, botResponse);
+    setHasSubmitted(true);
+    setInputText("");
+    setIsHeaderVisible(false);
+  };
+
+  const handleVoiceRecord = () => {
+    setIsRecording((prev) => !prev);
+  };
+
+  const handleSaveConversation = () => {
+    if (conversationHistory.length > 0) {
+      onSaveConversation(conversationHistory);
     }
   };
 
-  const PdfIcon = () => (
-    <svg
-      width="34"
-      height="34"
-      viewBox="0 0 24 24"
-      fill="red"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ marginRight: "6px" }}
-    >
-      <path
-        d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6z"
-        fill="red"
-      />
-      <text x="4" y="20" fontSize="9" fill="white">
-        PDF
-      </text>
-    </svg>
-  );
-
-  // This is a mock bot response function for demo purposes
   const getBotResponse = (input: string): JSX.Element => {
     const normalized = input.toLowerCase();
 
@@ -114,20 +110,8 @@ export default function GenerateTab({
       normalized.includes("working at heights")
     ) {
       return (
-        <div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "1.5rem",
-              border: "1px solid grey",
-              width: "230px",
-              borderRadius: "8px",
-              height: "60px",
-              backgroundColor: "#efefef",
-              color: "#676666",
-            }}
-          >
+        <>
+          <div className="pdf-container">
             <PdfIcon />
             <span>
               <strong>SOP - Work at Heights.pdf</strong>
@@ -136,15 +120,12 @@ export default function GenerateTab({
           <p>
             As a safety officer, before workers start working at heights, you
             should ensure SOP compliance, conduct training, and perform audits.
-            Specifically, you need to ensure that the Work at Height Permit is
-            obtained and reviewed, a Job Safety Analysis (JSA) is conducted for
-            the task, all fall protection equipment is inspected for wear and
-            tear, and anchor points are certified and secure. Additionally,
-            ensure the drop zone below is barricaded and that only trained
-            personnel operate elevated platforms. These steps help prevent falls
-            and injuries, ensuring a safe working environment at heights.
+            Ensure that the Work at Height Permit is obtained and reviewed, a
+            JSA is conducted, all fall protection equipment is inspected, and
+            anchor points are secure. Also, barricade drop zones and ensure only
+            trained personnel operate elevated platforms.
           </p>
-        </div>
+        </>
       );
     }
 
@@ -156,14 +137,10 @@ export default function GenerateTab({
     ) {
       return (
         <p>
-          The provided SOP context does not contain specific information about
-          procedures or safety measures for allowing heavy vehicle movement for
-          cement shipment inside the plant. For your role as an operator, it is
-          important to follow general plant safety protocols, communicate
-          clearly with the control room and other team members, and ensure all
-          safety procedures and PPE requirements are met during such operations.
-          If you need detailed guidance, please specify if you want information
-          related to vehicle movement safety or shipment handling procedures.
+          The provided SOP does not cover procedures for heavy vehicle movement
+          for cement shipment. Please follow plant protocols, communicate with
+          the control room, and ensure PPE compliance. Specify if you need
+          shipment or movement-specific guidance.
         </p>
       );
     }
@@ -176,32 +153,20 @@ export default function GenerateTab({
       normalized.includes("spillage")
     ) {
       return (
-        <div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4px",
-            }}
-          >
+        <>
+          <div className="pdf-container">
             <PdfIcon />
             <span>
               <strong>SOP - Confined Space Entry.pdf</strong>
             </span>
           </div>
           <p>
-            As a supervisor during a spillage or gas emergency, your key
-            responsibilities include ensuring that the emergency procedures are
-            followed promptly and effectively. This involves coordinating with
-            the safety officer and attendants to raise alarms, initiate rescue
-            plans if needed, and ensure that emergency services are contacted.
-            You should also oversee the evacuation or containment efforts,
-            ensure that all personnel are accounted for, and document the
-            incident for management review. Maintaining clear communication with
-            your team and the control room is critical to manage the situation
-            safely and efficiently.
+            During a gas emergency or spillage, a supervisor must ensure
+            emergency procedures are followed, coordinate with safety staff, and
+            initiate rescue if needed. Oversee evacuation, document the event,
+            and communicate clearly with the control room.
           </p>
-        </div>
+        </>
       );
     }
 
@@ -213,76 +178,68 @@ export default function GenerateTab({
     );
   };
 
-  const handleVoiceRecord = () => {
-    setIsRecording(!isRecording);
-  };
-
-  const handleFileUpload = () => {
-    console.log("File upload clicked");
-  };
-
   return (
     <div className="generate-tab">
-      <div className="chat-history">
-        {conversationHistory.map((entry, index) => (
-          <React.Fragment key={index}>
-            {/* User message block */}
-            <div className="chat-message chat-user">
-              <strong>Question :</strong>
-              <div className="chat-text">{entry.user}</div>
-            </div>
+      {conversationHistory.map((entry, index) => (
+        <div key={index} className="conversation-block">
+          <div className="question-display">
+            <h2 className="question-text">{entry.user}</h2>
+          </div>
 
-            {/* Bot response block */}
-            <div className="chat-message chat-bot">
-              <div className="answer-heading">Answer:</div>
-              <div className="chat-text">{entry.bot}</div>
+          <div className="answer-section">
+            <div className="answer-header">
+              <div className="answer-tab active">
+                <span>Answer</span>
+              </div>
+              <div className="play-audio-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M4 10h2v4H4v-4zm4-4h2v12H8V6zm4 2h2v8h-2V8zm4-3h2v14h-2V5zm4 6h2v2h-2v-2z" />
+                </svg>
+              </div>
             </div>
-          </React.Fragment>
-        ))}
-      </div>
+            <div className="answer-content">{entry.bot}</div>
+          </div>
+        </div>
+      ))}
+
       <div className="content-box">
-        <div className="sub-tab-navigation"></div>
+        <div className="sub-tab-navigation" />
 
         <div className="input-section">
           <textarea
             className="text-input"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Enter your text here..."
+            placeholder="Ask anything..."
             maxLength={5000}
           />
         </div>
 
         <div className="controls-section">
-          <div className="control-group">
-            <div className="language-selector">
-              <select
-                value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value)}
-                className="language-select"
-              >
-                {languages.map((lang) => (
-                  <option key={lang} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </select>
-            </div>
-
+          <div className="submit-group">
             <button className="control-btn mic-btn" onClick={handleVoiceRecord}>
               <MicIcon className={isRecording ? "recording" : ""} />
             </button>
 
             <button
-              className="control-btn upload-btn"
-              onClick={handleFileUpload}
+              className="control-btn save-btn"
+              onClick={handleSaveConversation}
+              title="Save the entire conversation"
             >
-              <UploadIcon />
+              <SaveIcon />
             </button>
-          </div>
-          <div className="submit-section">
-            <button className="generate-btn" onClick={handleSubmit}>
-              Submit
+
+            <button
+              className="generate-btn perplexity-style"
+              onClick={handleSubmit}
+            >
+              <ArrowRight className="arrow-icon" />
             </button>
           </div>
         </div>

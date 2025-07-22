@@ -4,6 +4,7 @@ import { useState, type JSX } from "react";
 import GenerateTab from "./GenerateTab";
 import HistoryTab from "./HistoryTab";
 import QuestionCards from "./QuestionCards";
+import SavedTab from "./SavedTab";
 import "./styles/MainContent.css";
 
 interface Conversation {
@@ -18,6 +19,9 @@ interface MainContentProps {
   onTabChange: (tab: string) => void;
   conversations: Conversation[];
   onAddToHistory: (userInput: string, botResponse: JSX.Element) => void;
+  setIsHeaderVisible: (visible: boolean) => void;
+  savedConversations: Conversation[];
+  onSaveConversation: (history: { user: string; bot: JSX.Element }[]) => void; // ✅ FIXED
 }
 
 export default function MainContent({
@@ -25,14 +29,18 @@ export default function MainContent({
   onTabChange,
   conversations,
   onAddToHistory,
+  setIsHeaderVisible,
+  savedConversations,
+  onSaveConversation,
 }: MainContentProps) {
-  const [inputText, setInputText] = useState("Hi, I need help with ...");
+  const [inputText, setInputText] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleQuestionCardClick = (question: string) => {
     setInputText(question);
     onTabChange("generate");
   };
+
   return (
     <main className="main-content">
       <div className="tab-navigation"></div>
@@ -44,6 +52,17 @@ export default function MainContent({
             inputText={inputText}
             setInputText={setInputText}
             setHasSubmitted={setHasSubmitted}
+            setIsHeaderVisible={setIsHeaderVisible}
+            onSaveConversation={onSaveConversation}
+          />
+        ) : activeTab === "saved" ? (
+          <SavedTab
+            savedConversations={savedConversations}
+            onBack={() => {
+              onTabChange("generate");
+              setIsHeaderVisible(true); // show header again
+              setHasSubmitted(false); // show question cards again
+            }}
           />
         ) : (
           <HistoryTab conversations={conversations} />

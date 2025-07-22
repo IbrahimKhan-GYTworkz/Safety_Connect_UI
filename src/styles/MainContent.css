@@ -11,7 +11,7 @@
   justify-content: space-between; /* space between tabs and persona */
   align-items: center; /* vertically center */
   margin-bottom: 32px;
-  border-bottom: 1px solid #e9ecef;
+  /* border-bottom: 1px solid #e9ecef; */
   flex-wrap: wrap; /* for responsiveness */
 }
 .tab-buttons {
