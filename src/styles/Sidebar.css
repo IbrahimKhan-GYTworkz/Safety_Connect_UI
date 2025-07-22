@@ -17,6 +17,11 @@
   width: 240px;
 }
 
+.onyx-sidebar-img{
+  width: 28px;
+  height: 28px;
+}
+
 .sidebar-header {
   padding: 16px;
   border-bottom: 1px solid #e9ecef;
@@ -139,6 +144,48 @@
 
 .icon-with-outline {
   filter: drop-shadow(0 0 0.8px black);
+}
+
+
+.sidebar-submenu {
+  margin-left: 2.7rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: -2rem
+}
+
+.sidebar-subitem {
+  display: flex;                     /* ensures inline icon + text */
+  align-items: center;              /* vertically centers them */
+  gap: 8px;                         /* space between icon and text */
+  cursor: pointer;
+  padding: 6px 8px;
+  color: #dfdfdf;
+  background-color: transparent;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-subitem:hover {
+  color: #ffffff;
+}
+
+
+
+
+.chevron-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chevron-icon {
+  transition: transform 0.2s ease;
+}
+
+.chevron-icon.rotate {
+  transform: rotate(180deg);
 }
 
 /* Mobile Responsive */

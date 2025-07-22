@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type JSX } from "react";
+import type { JSX } from "react";
 import GenerateTab from "./GenerateTab";
 import HistoryTab from "./HistoryTab";
 import QuestionCards from "./QuestionCards";
@@ -21,7 +21,15 @@ interface MainContentProps {
   onAddToHistory: (userInput: string, botResponse: JSX.Element) => void;
   setIsHeaderVisible: (visible: boolean) => void;
   savedConversations: Conversation[];
-  onSaveConversation: (history: { user: string; bot: JSX.Element }[]) => void; // ✅ FIXED
+  onSaveConversation: (history: { user: string; bot: JSX.Element }[]) => void;
+
+  // ✅ Newly passed props from App
+  inputText: string;
+  setInputText: (text: string) => void;
+  hasSubmitted: boolean;
+  setHasSubmitted: (submitted: boolean) => void;
+  resetSignal: number;
+  onNewConversation: () => void;
 }
 
 export default function MainContent({
@@ -32,10 +40,12 @@ export default function MainContent({
   setIsHeaderVisible,
   savedConversations,
   onSaveConversation,
+  inputText,
+  setInputText,
+  hasSubmitted,
+  setHasSubmitted,
+  resetSignal,
 }: MainContentProps) {
-  const [inputText, setInputText] = useState("");
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-
   const handleQuestionCardClick = (question: string) => {
     setInputText(question);
     onTabChange("generate");
@@ -54,14 +64,15 @@ export default function MainContent({
             setHasSubmitted={setHasSubmitted}
             setIsHeaderVisible={setIsHeaderVisible}
             onSaveConversation={onSaveConversation}
+            resetSignal={resetSignal}
           />
         ) : activeTab === "saved" ? (
           <SavedTab
             savedConversations={savedConversations}
             onBack={() => {
               onTabChange("generate");
-              setIsHeaderVisible(true); // show header again
-              setHasSubmitted(false); // show question cards again
+              setIsHeaderVisible(true);
+              setHasSubmitted(false);
             }}
           />
         ) : (

@@ -1,23 +1,10 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import { ChevronDown, Folder, LogOut, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import "./styles/Sidebar.css";
 
 // SVG Icons
-const PauseIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <rect x="6" y="4" width="4" height="16" />
-    <rect x="14" y="4" width="4" height="16" />
-  </svg>
-);
 
 const FileTextIcon = () => (
   <svg
@@ -64,6 +51,7 @@ interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
   onTabChange: (tab: "generate" | "saved") => void;
+  onNewConversation: () => void;
 }
 
 const sampleFiles = [
@@ -81,10 +69,11 @@ export default function Sidebar({
   isOpen,
   onToggle,
   onTabChange,
+  onNewConversation,
 }: SidebarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
-
+  const [isFileDropDownOpen, setIsFileDropDownOpen] = useState<boolean>(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -102,7 +91,7 @@ export default function Sidebar({
           onClick={onToggle}
           aria-label="Open Menu"
         >
-          <PauseIcon />
+          <img src="/onyx_pulse_sidebar.png" className="onyx-sidebar-img" />
         </button>
       )}
 
@@ -120,12 +109,61 @@ export default function Sidebar({
                 className="icon-with-outline"
               />
             ) : (
-              <PauseIcon />
+              <img src="/onyx_pulse_sidebar.png" className="onyx-sidebar-img" />
             )}
           </button>
         </div>
 
         <div className="sidebar-content">
+          <div
+            className="sidebar-item sidebar-btn"
+            onClick={onNewConversation}
+            style={{ cursor: "pointer" }}
+          >
+            <PlusIcon className="icon" />
+            {isOpen && <span className="label">New Conversation</span>}
+          </div>
+
+          <div
+            className="sidebar-item file-dropdown"
+            onClick={() => setIsFileDropDownOpen(!isFileDropDownOpen)}
+          >
+            <Folder />
+            {isOpen && (
+              <span className="chevron-label">
+                File Management
+                <ChevronDown
+                  className={`chevron-icon ${
+                    isFileDropDownOpen ? "rotate" : ""
+                  }`}
+                />
+              </span>
+            )}
+          </div>
+          {isFileDropDownOpen && isOpen && (
+            <div className="sidebar-submenu">
+              <div
+                className="sidebar-subitem"
+                onClick={() => {
+                  onTabChange("generate");
+                  setIsFileDropDownOpen(false);
+                }}
+              >
+                <UploadIcon />
+                <span>Upload File</span>
+              </div>
+              <div
+                className="sidebar-subitem"
+                onClick={() => {
+                  openModal();
+                  setIsFileDropDownOpen(false);
+                }}
+              >
+                <FileTextIcon />
+                <span>View Files</span>
+              </div>
+            </div>
+          )}
           <div
             className="sidebar-item"
             onClick={() => onTabChange("saved")}
@@ -133,22 +171,6 @@ export default function Sidebar({
           >
             <BookmarkIcon />
             {isOpen && <span>Saved Conversations</span>}
-          </div>
-          <div
-            className="sidebar-item"
-            onClick={() => onTabChange("generate")}
-            style={{ cursor: "pointer" }}
-          >
-            <UploadIcon />
-            {isOpen && <span>Upload File</span>}
-          </div>
-          <div
-            className="sidebar-item"
-            onClick={openModal}
-            style={{ cursor: "pointer" }}
-          >
-            <FileTextIcon />
-            {isOpen && <span>Files</span>}
           </div>
         </div>
 

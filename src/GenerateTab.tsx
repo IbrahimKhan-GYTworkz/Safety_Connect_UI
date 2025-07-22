@@ -12,6 +12,7 @@ interface GenerateTabProps {
   setHasSubmitted: (value: boolean) => void;
   setIsHeaderVisible: (visible: boolean) => void;
   onSaveConversation: (history: { user: string; bot: JSX.Element }[]) => void;
+  resetSignal: number;
 }
 
 const MicIcon = ({ className = "" }: { className?: string }) => (
@@ -48,11 +49,7 @@ const SaveIcon = ({ className = "" }: { className?: string }) => (
 );
 
 const PdfIcon = () => (
-  <svg
-    className="pdf-icon"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg className="pdf-icon" viewBox="0 0 24 24">
     <path
       d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6z"
       fill="red"
@@ -82,7 +79,6 @@ function useTypewriterEffect(text: string, speed = 20): string {
   return displayedText;
 }
 
-// Animated bot answer component
 function AnimatedAnswer({ text }: { text: string }) {
   const animatedText = useTypewriterEffect(text);
   return (
@@ -103,11 +99,20 @@ export default function GenerateTab({
   setHasSubmitted,
   setIsHeaderVisible,
   onSaveConversation,
+  resetSignal,
 }: GenerateTabProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<
     { user: string; bot: JSX.Element }[]
   >([]);
+
+  // ✅ Handle reset when `resetSignal` changes
+  useEffect(() => {
+    setConversationHistory([]);
+    setInputText("");
+    setHasSubmitted(false);
+    setIsHeaderVisible(true);
+  }, [resetSignal, setInputText, setHasSubmitted, setIsHeaderVisible]);
 
   const handleSubmit = () => {
     if (!inputText.trim()) return;
