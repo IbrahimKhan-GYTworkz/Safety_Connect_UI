@@ -87,43 +87,72 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .app-header {
-    padding: 12px 32px;
+    padding: 26px 32px 26px 48px;
+    height: auto; /* Avoid fixed height issues on tablets */
   }
 
   .header-content {
     flex-direction: column;
     gap: 20px;
-    align-items: stretch;
+    align-items: flex-start;
+  }
+
+  .header-title-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .header-title {
-    font-size: 28px;
+    font-size: 26px;
+  }
+
+  .header-persona {
+    font-size: 13px;
   }
 
   .mode-toggle {
-    align-self: flex-end;
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .mode-btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .app-header {
-    padding: 12px 24px;
+    padding: 26px 32px 26px 48px;
+    height: auto;
   }
 
   .header-title {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .header-persona,
+  .header-description {
+    font-size: 13px;
   }
 
   .header-description {
-    font-size: 15px;
+    line-height: 1.4;
+    max-width: 100%;
   }
 
   .mode-toggle {
+    flex-direction: column;
+    gap: 6px;
     align-self: stretch;
   }
 
   .mode-btn {
-    flex: 1;
-    padding: 10px 12px;
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
   }
 }

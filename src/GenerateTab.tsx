@@ -1,7 +1,8 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import "./styles/GenerateTab.css";
 
 interface GenerateTabProps {
@@ -62,6 +63,39 @@ const PdfIcon = () => (
   </svg>
 );
 
+// Hook: Typewriter Effect
+function useTypewriterEffect(text: string, speed = 20): string {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    setDisplayedText("");
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index === text.length) clearInterval(interval);
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return displayedText;
+}
+
+// Animated bot answer component
+function AnimatedAnswer({ text }: { text: string }) {
+  const animatedText = useTypewriterEffect(text);
+  return (
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="animated-answer"
+    >
+      {animatedText}
+    </motion.p>
+  );
+}
+
 export default function GenerateTab({
   onAddToHistory,
   inputText,
@@ -79,7 +113,6 @@ export default function GenerateTab({
     if (!inputText.trim()) return;
 
     const botResponse = getBotResponse(inputText);
-
     setConversationHistory((prev) => [
       ...prev,
       { user: inputText, bot: botResponse },
@@ -117,14 +150,7 @@ export default function GenerateTab({
               <strong>SOP - Work at Heights.pdf</strong>
             </span>
           </div>
-          <p>
-            As a safety officer, before workers start working at heights, you
-            should ensure SOP compliance, conduct training, and perform audits.
-            Ensure that the Work at Height Permit is obtained and reviewed, a
-            JSA is conducted, all fall protection equipment is inspected, and
-            anchor points are secure. Also, barricade drop zones and ensure only
-            trained personnel operate elevated platforms.
-          </p>
+          <AnimatedAnswer text="As a safety officer, before workers start working at heights, you should ensure SOP compliance, conduct training, and perform audits. Ensure that the Work at Height Permit is obtained and reviewed, a JSA is conducted, all fall protection equipment is inspected, and anchor points are secure. Also, barricade drop zones and ensure only trained personnel operate elevated platforms." />
         </>
       );
     }
@@ -136,12 +162,7 @@ export default function GenerateTab({
       normalized.includes("cement shipment")
     ) {
       return (
-        <p>
-          The provided SOP does not cover procedures for heavy vehicle movement
-          for cement shipment. Please follow plant protocols, communicate with
-          the control room, and ensure PPE compliance. Specify if you need
-          shipment or movement-specific guidance.
-        </p>
+        <AnimatedAnswer text="The provided SOP does not cover procedures for heavy vehicle movement for cement shipment. Please follow plant protocols, communicate with the control room, and ensure PPE compliance. Specify if you need shipment or movement-specific guidance." />
       );
     }
 
@@ -160,21 +181,15 @@ export default function GenerateTab({
               <strong>SOP - Confined Space Entry.pdf</strong>
             </span>
           </div>
-          <p>
-            During a gas emergency or spillage, a supervisor must ensure
-            emergency procedures are followed, coordinate with safety staff, and
-            initiate rescue if needed. Oversee evacuation, document the event,
-            and communicate clearly with the control room.
-          </p>
+          <AnimatedAnswer text="During a gas emergency or spillage, a supervisor must ensure emergency procedures are followed, coordinate with safety staff, and initiate rescue if needed. Oversee evacuation, document the event, and communicate clearly with the control room." />
         </>
       );
     }
 
     return (
-      <p>
-        Sorry, I couldn't find a matching response for: "{input}". Please try
-        rephrasing or ask about Question 1, 2, or 3.
-      </p>
+      <AnimatedAnswer
+        text={`Sorry, I couldn't find a matching response for: "${input}". Please try rephrasing or ask about Question 1, 2, or 3.`}
+      />
     );
   };
 
@@ -210,7 +225,6 @@ export default function GenerateTab({
 
       <div className="content-box">
         <div className="sub-tab-navigation" />
-
         <div className="input-section">
           <textarea
             className="text-input"
@@ -226,7 +240,6 @@ export default function GenerateTab({
             <button className="control-btn mic-btn" onClick={handleVoiceRecord}>
               <MicIcon className={isRecording ? "recording" : ""} />
             </button>
-
             <button
               className="control-btn save-btn"
               onClick={handleSaveConversation}
@@ -234,7 +247,6 @@ export default function GenerateTab({
             >
               <SaveIcon />
             </button>
-
             <button
               className="generate-btn perplexity-style"
               onClick={handleSubmit}
