@@ -1,3 +1,7 @@
+*{
+  font-family: "ABeeZee", sans-serif;
+}
+
 .sidebar {
   position: fixed;
   left: 0;

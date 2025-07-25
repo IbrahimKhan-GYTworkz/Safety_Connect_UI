@@ -105,13 +105,14 @@ export default function GenerateTab({
   const [conversationHistory, setConversationHistory] = useState<
     { user: string; bot: JSX.Element }[]
   >([]);
+  const [hasFirstSubmission, setHasFirstSubmission] = useState(false);
 
-  // ✅ Handle reset when `resetSignal` changes
   useEffect(() => {
     setConversationHistory([]);
     setInputText("");
     setHasSubmitted(false);
     setIsHeaderVisible(true);
+    setHasFirstSubmission(false); // Reset this flag too
   }, [resetSignal, setInputText, setHasSubmitted, setIsHeaderVisible]);
 
   const handleSubmit = () => {
@@ -127,6 +128,11 @@ export default function GenerateTab({
     setHasSubmitted(true);
     setInputText("");
     setIsHeaderVisible(false);
+
+    // Mark that we've had our first submission
+    if (!hasFirstSubmission) {
+      setHasFirstSubmission(true);
+    }
   };
 
   const handleVoiceRecord = () => {
@@ -199,36 +205,40 @@ export default function GenerateTab({
   };
 
   return (
-    <div className="generate-tab">
-      {conversationHistory.map((entry, index) => (
-        <div key={index} className="conversation-block">
-          <div className="question-display">
-            <h2 className="question-text">{entry.user}</h2>
-          </div>
-
-          <div className="answer-section">
-            <div className="answer-header">
-              <div className="answer-tab active">
-                <span>Answer</span>
-              </div>
-              <div className="play-audio-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M4 10h2v4H4v-4zm4-4h2v12H8V6zm4 2h2v8h-2V8zm4-3h2v14h-2V5zm4 6h2v2h-2v-2z" />
-                </svg>
-              </div>
+    <div
+      className={`generate-tab ${hasFirstSubmission ? "has-conversation" : ""}`}
+    >
+      <div className="conversation-container">
+        {conversationHistory.map((entry, index) => (
+          <div key={index} className="conversation-block">
+            <div className="question-display">
+              <h2 className="question-text">{entry.user}</h2>
             </div>
-            <div className="answer-content">{entry.bot}</div>
-          </div>
-        </div>
-      ))}
 
-      <div className="content-box">
+            <div className="answer-section">
+              <div className="answer-header">
+                <div className="answer-tab active">
+                  <span>Answer</span>
+                </div>
+                <div className="play-audio-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M4 10h2v4H4v-4zm4-4h2v12H8V6zm4 2h2v8h-2V8zm4-3h2v14h-2V5zm4 6h2v2h-2v-2z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="answer-content">{entry.bot}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className={`content-box`}>
         <div className="sub-tab-navigation" />
         <div className="input-section">
           <textarea

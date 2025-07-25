@@ -1,9 +1,24 @@
 /* ========== Base Layout ========== */
+*{
+  font-family: "ABeeZee", sans-serif;
+}
+
 .generate-tab {
+  display: flex;
+  flex-direction: column;
+  /* min-height: 100vh; Changed from 100% to ensure proper sticky behavior */
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 0;
+  position: relative; /* Added for proper sticky positioning context */
+}
+
+.conversation-container {
+  flex: 1;
+  padding-bottom: 20px;
+  width: 100%;
+  overflow-anchor: none;
 }
 
 .chat-history-container,
@@ -50,6 +65,7 @@
   padding: 0;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .answer-tab {
@@ -112,7 +128,10 @@
 }
 
 .answer-content {
-  padding: 20px;
+  
+  min-height: 1em; /* Ensure consistent height during animation */
+  contain: content; /* Helps prevent layout shifts */
+
   font-size: 1rem;
   line-height: 1.6;
   color: #4a5568;
@@ -169,12 +188,11 @@
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   width: 100%;
   max-width: 600px;
   margin: 2rem auto 0;
+  transition: all 0.3s ease;
 }
-
 .input-section {
   padding: 4px;
   min-height: 60px;
@@ -201,6 +219,23 @@
   font-style: italic;
 }
 
+
+/* Sticky behavior only after first submission */
+.generate-tab.has-conversation .content-box {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 10;
+  margin-top: auto;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); /* Optional: adds subtle shadow when sticky */
+}
+
+/* Make space for sticky input when scrolling */
+.generate-tab.has-conversation .conversation-container {
+  padding-bottom: 120px; /* Adjusted for better spacing */
+}
 /* ========== Controls Section ========== */
 .controls-section {
     display: flex;

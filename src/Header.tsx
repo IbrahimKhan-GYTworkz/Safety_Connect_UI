@@ -6,13 +6,15 @@ const Header = () => {
       <div className="header-content">
         <div className="header-main">
           <div className="header-title-bar">
-            <h1 className="header-title">Hello, How can I help you?</h1>
+            <h1 className="header-title">
+              Ready to unlock clarity in every decision?
+            </h1>
           </div>
           {/* Optional description below the heading */}
           <p className="header-description">
-            Unleash the power of our cutting-edge technology to gain assistance
-            in operating procedures and turning passive knowledge into
-            intelligence.
+            Transform knowledge into insight. Streamline processes. Empower your
+            teams with real-time, intelligent guidance—when and where it
+            matters.
           </p>
         </div>
       </div>
